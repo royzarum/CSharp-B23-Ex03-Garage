@@ -41,8 +41,16 @@ namespace Ex03.ConsoleUI
 
         public static void PrintTheGarageServicesMenu()
         {
-            Console.WriteLine("The following are the garage services: \n 1. Bringing a new vehicle into the garage. \n 2. Display the list of vehicle license numbers in the garage. \n 3. Changing vehicle mode. \n 4. Air inflation in the wheels to a maximum of. \n 5. Refueling a fuel-powered vehicle. \n 6. Charging an electric vehicle. \n 7. View complete vehicle data.\n8.Exit.");
-            Console.WriteLine("Please enter your choice (a number between 1-7)");
+            Console.WriteLine(@"The following are the garage services:
+1. Bringing a new vehicle into the garage.
+2. Display the list of vehicle license numbers in the garage.
+3. Changing vehicle mode.
+4. Air inflation in the wheels to a maximum of.
+5. Refueling a fuel-powered vehicle.
+6. Charging an electric vehicle.
+7. View complete vehicle data.
+8. Exit.");
+            Console.WriteLine("Please enter your choice (a number between 1 - 8)");
         }
 
         public static void DoTheUserChoice(uint i_UserChoice)
