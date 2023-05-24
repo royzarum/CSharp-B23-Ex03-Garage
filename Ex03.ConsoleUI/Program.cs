@@ -200,9 +200,8 @@ Press any key to return to the menu");
             else if (getChoiceFromUser == "Y")
             {
                 try
-                {
-                    Console.WriteLine($"What State you wish? ({Enum.GetValues(typeof(eCurrentStateOfTheVehicle))})");
-                    //Console.WriteLine($"What State you wish? ({eCurrentStateOfTheVehicle.InRepair}/{eCurrentStateOfTheVehicle.Repaired}/{eCurrentStateOfTheVehicle.Paid})");
+                { 
+                    Console.WriteLine($"What State you wish? ({eCurrentStateOfTheVehicle.InRepair}/{eCurrentStateOfTheVehicle.Repaired}/{eCurrentStateOfTheVehicle.Paid})");
                     string state = Console.ReadLine();
                     m_GLM.PrintLicenseNumbersOfVehiclesInTheGarageByState(state);
                 }

@@ -98,69 +98,6 @@ namespace Ex03.GarageLogic
 
             return stringBuilder.ToString();
         }
-
-
-
-        //public override string[] ShowTheVehicleData()
-        //{
-        //    if (m_CarMechanism is FuelMechanism)
-        //    {
-        //        m_RequiredDetailsForCreating[4] = $"gas type: {k_GasType} with {EnergyBalanceInPrecentage} of remaind energy.";
-        //    }
-        //    else
-        //    {
-        //        m_RequiredDetailsForCreating[4] = $"{EnergyBalanceInPrecentage} of remaind energy.";
-        //    }
-        //    m_RequiredDetailsForCreating[5] = $"Wheels manifuctur name: {m_WheelsArray[0].ManufacturerName} and tire pressure is {m_WheelsArray[0].CurrentTirePressure} from {m_WheelsArray[0].MaxTirePressure}";
-
-        //    return m_RequiredDetailsForCreating;
-        //}
-
-
-
-
-        //public Car(string i_ModelName, string i_LicenseNumber, string i_Color, string i_NumberOfDoors, string i_MechanismType, float i_CurrentEnergyUnits, string i_CurrentTirePressure)
-        //    : base(i_ModelName, i_LicenseNumber, k_NumberOfWheels, k_WheelMaxAirPressire, i_CurrentTirePressure)
-        //{
-        //    try
-        //    {
-        //        m_Color = i_Color;
-        //        m_NumberOfDoors = NumberOfDoors.Parse(i_NumberOfDoors);
-        //        base.CarMechanism = createCarMechanism(i_MechanismType, i_CurrentEnergyUnits);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        //Throw
-        //    }
-
-
-
-
-        //private CarMechanism createCarMechanism(string i_MechanismType, float i_CurrentEnergyUnits)
-        //{
-        //    try
-        //    {
-        //        CarMechanism carMechanism = null;
-        //        eModelName mechanismType = (eModelName)Enum.Parse(typeof(eModelName), i_MechanismType);
-
-        //        if (mechanismType == eModelName.RegularCar || mechanismType == eModelName.RegularMotorcycle)
-        //        {
-        //            carMechanism = new FuelMechanism(k_GasType, k_MaxGasInTank, i_CurrentEnergyUnits);
-        //        }
-        //        else //mechanismType == electric
-        //        {
-        //            carMechanism = new ElectricMechanism(k_MaxElectricUnitInBattery, i_CurrentEnergyUnits);
-        //        }
-
-        //        return carMechanism;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        //Throw
-        //    }
-
-        //    return null;
-        //}
     }
 
 

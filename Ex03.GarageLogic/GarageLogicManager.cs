@@ -58,7 +58,7 @@ namespace Ex03.GarageLogic
                     newVehicleToAddToTheGarage.Vehicle = new Truck();
                     break;
                 default:
-                    break; ///throw- wrong input
+                    break;
             }
 
             m_DictionaryOfVehiclesInGarage.Add(i_LicenseNumber, newVehicleToAddToTheGarage);

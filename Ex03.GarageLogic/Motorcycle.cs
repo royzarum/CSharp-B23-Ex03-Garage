@@ -34,7 +34,7 @@ namespace Ex03.GarageLogic
     }
     internal class Motorcycle : Vehicle
     {
-        private LicenceType m_LicenceType;  //Enum not string
+        private LicenceType m_LicenceType;
         private int m_EngineCapacity = 0;
 
         public const uint k_NumberOfRequiresForCreating = 7;
@@ -107,21 +107,7 @@ namespace Ex03.GarageLogic
             }
             AirInflationToWheels(float.Parse(i_RequiredDataArray[6]));
         }
-
-        //public override string[] ShowTheVehicleData()
-        //{
-        //    if (m_CarMechanism is FuelMechanism)
-        //    {
-        //        m_RequiredDetailsForCreating[4] = $"gas type: Octan98 with {EnergyBalanceInPrecentage} of remaind energy.";
-        //    }
-        //    else
-        //    {
-        //        m_RequiredDetailsForCreating[4] = $"{EnergyBalanceInPrecentage} of remaind energy.";
-        //    }
-        //    m_RequiredDetailsForCreating[5] = $"wheels: manifuctur name: {m_WheelsArray[0].ManufacturerName} and tire pressure is {m_WheelsArray[0].CurrentTirePressure} from {m_WheelsArray[0].MaxTirePressure}";
-
-        //    return m_RequiredDetailsForCreating;
-        //}
+        
 
         public override string ToString()
         {
@@ -134,6 +120,5 @@ namespace Ex03.GarageLogic
 
             return stringBuilder.ToString();
         }
-
     }
 }

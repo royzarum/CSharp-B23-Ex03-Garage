@@ -8,11 +8,6 @@ namespace Ex03.GarageLogic
         private float m_CurrentTirePressure = 0;
         private float m_MaxTirePressure = 0;
 
-        //public Wheel(float i_MaxTirePressire)
-        //{
-        //    m_ManufacturerName = i_ManufacturerName;
-        //    m_MaxTirePressure = i_MaxTirePressire;
-        //}
 
         public string ManufacturerName
         {

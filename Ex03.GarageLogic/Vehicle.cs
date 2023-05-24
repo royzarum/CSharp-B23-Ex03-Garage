@@ -62,18 +62,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        //public CarMechanism CarMechanism
-        //{
-        //    get
-        //    {
-        //        return m_CarMechanism;
-        //    }
-        //    protected set
-        //    {
-        //        m_CarMechanism = value;
-        //    }
-        //}
-
         protected void CreateCarMechanism(eMechanismType i_MechanismType, float i_MaxEnergyCapacity, FuelMechanism.eGasType i_GasType = FuelMechanism.eGasType.Octan95)
         {
             if (i_MechanismType == eMechanismType.Gas)
@@ -106,17 +94,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        //public Wheel[] WheelsArray
-        //{
-        //    get
-        //    {
-        //        return m_WheelsArray;
-        //    }
-        //    protected set
-        //    {
-        //        m_WheelsArray = value;
-        //    }
-        //}
 
         protected Wheel[] createWheelsArray(uint i_NumberOfWheels, float i_MaxTirePressure)
         {
@@ -176,8 +153,5 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException();
             }
         }
-
-
-
     }
 }
