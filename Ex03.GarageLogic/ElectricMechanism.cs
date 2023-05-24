@@ -16,7 +16,7 @@ namespace Ex03.GarageLogic
             float amountOfHoursToCharge;
 
 
-            amountOfHoursToCharge = float.Parse(i_AmountOfHoursToCharge);  //validation
+            amountOfHoursToCharge = float.Parse(i_AmountOfHoursToCharge);  
             CurrentAmountOfEnergyUnits = amountOfHoursToCharge;  //set do +=                              
         }
 

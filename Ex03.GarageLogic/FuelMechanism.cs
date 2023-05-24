@@ -37,8 +37,8 @@ namespace Ex03.GarageLogic
             eGasType gasType;
             float amountOfGasToFill;
 
-            gasType = (eGasType)Enum.Parse(typeof(eGasType), i_GasType); //validation
-            amountOfGasToFill = float.Parse(i_AmountOfGasToFill);  //validation
+            gasType = (eGasType)Enum.Parse(typeof(eGasType), i_GasType); 
+            amountOfGasToFill = float.Parse(i_AmountOfGasToFill);  
             if (gasType == m_GasType)
             {
                 CurrentAmountOfEnergyUnits = amountOfGasToFill;  //set do += 

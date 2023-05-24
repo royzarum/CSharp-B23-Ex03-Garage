@@ -83,16 +83,5 @@ namespace Ex03.GarageLogic
 
             return stringBuilder.ToString();
         }
-
-
-        //public override string[] ShowTheVehicleData()
-        //{
-        //    m_RequiredDetailsForCreating[4] = $"gas type: Soler with {EnergyBalanceInPrecentage} of remaind energy.";
-        //    m_RequiredDetailsForCreating[5] = $"wheels manifuctur name: {m_WheelsArray[0].ManufacturerName} and tire pressure is {m_WheelsArray[0].CurrentTirePressure} from {m_WheelsArray[0].MaxTirePressure}";
-        //
-        //    return m_RequiredDetailsForCreating;
-        //}
-
-
     }
 }
