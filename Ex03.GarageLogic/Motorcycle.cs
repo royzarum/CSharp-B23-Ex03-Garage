@@ -1,6 +1,7 @@
 ﻿
-using static Ex03.GarageLogic.FuelMechanism;
 using System;
+using System.Text;
+
 
 namespace Ex03.GarageLogic
 {
@@ -14,42 +15,37 @@ namespace Ex03.GarageLogic
     }
     internal class LicenceType
     {
-        private eLicenceType m_Value;
+        private eLicenceType Value { get; set; }
 
         public static LicenceType Parse(string i_Str)
         {
             LicenceType licenceType = new LicenceType();
-            licenceType.m_Value = (eLicenceType)Enum.Parse(typeof(eLicenceType), i_Str);
-            return licenceType;
 
+            licenceType.Value = (eLicenceType)Enum.Parse(typeof(eLicenceType), i_Str);
+
+            return licenceType;
         }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
+
     }
     internal class Motorcycle : Vehicle
     {
         private LicenceType m_LicenceType;  //Enum not string
         private int m_EngineCapacity = 0;
 
-        public const uint k_NumberOfRequiresForCreating = 6;
+        public const uint k_NumberOfRequiresForCreating = 7;
         public const uint k_NumberOfWheels = 2;
         public const float k_MaxTirePressure = 31f;
+        //Fuel
         public const float k_MaxGasInTank = 46f;
         public const FuelMechanism.eGasType k_GasType = FuelMechanism.eGasType.Octan98;
-        public const float k_MaxElectricUnitInBattery = 5.2f;
+        //Electric
+        public const float k_MaxElectricUnitInBattery = 2.6f;
 
-        //public Motorcycle(string i_ModelName, string i_LicenseNumber, string i_MechanismType, float i_CurrentEnergyUnits, string i_LicenceType, string i_CurrentTirePressure)
-        //    : base(i_ModelName, i_LicenseNumber, k_NumberOfWheels, k_WheelMaxAirPressire, i_CurrentTirePressure)
-        //{
-        //    try
-        //    {
-        //        m_LicenceType = LicenceType.Parse(i_LicenceType);
-        //        base.CarMechanism = createCarMechanism(i_MechanismType, i_CurrentEnergyUnits);
-
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        //Throw
-        //    }
-        //}
 
         public Motorcycle(eMechanismType i_MechanismType = eMechanismType.Gas)
         {
@@ -66,14 +62,34 @@ namespace Ex03.GarageLogic
         }
 
 
-        public override string[] ShowTheRequiredDataFromTheUser(string i_ModelName)
+
+        /////////////////Properties///////////////////
+
+        public int EngineCapacity
+        {
+            get
+            {
+                return m_EngineCapacity;
+            }
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("Motorcycle engine capasity must be possitive number.");
+                }
+                m_EngineCapacity = value;
+            }
+        }
+
+        public override string[] ShowTheRequiredDataFromTheUser()
         {
             m_RequiredDetailsForCreating[0] = "License Number";
             m_RequiredDetailsForCreating[1] = "Model Name";
             m_RequiredDetailsForCreating[2] = "License type";
             m_RequiredDetailsForCreating[3] = "Engine capacity";
             m_RequiredDetailsForCreating[4] = "Current amount of energy units in the vehicle";
-            m_RequiredDetailsForCreating[5] = "Current amount of air in the wheels in the vehicle";
+            m_RequiredDetailsForCreating[5] = "Wheels manufacturer name";
+            m_RequiredDetailsForCreating[6] = "Current amount of air in the wheels in the vehicle";
 
             return m_RequiredDetailsForCreating;
         }
@@ -83,24 +99,40 @@ namespace Ex03.GarageLogic
             m_LicenseNumber = i_RequiredDataArray[0];
             m_ModelName = i_RequiredDataArray[1];
             m_LicenceType = LicenceType.Parse(i_RequiredDataArray[2]);
-            m_EngineCapacity = int.Parse(i_RequiredDataArray[3]);
+            EngineCapacity = int.Parse(i_RequiredDataArray[3]);
             m_CarMechanism.CurrentAmountOfEnergyUnits = float.Parse(i_RequiredDataArray[4]);
-            AirInflationToWheels(float.Parse(i_RequiredDataArray[5]));
+            foreach (Wheel wheel in m_WheelsArray)
+            {
+                wheel.ManufacturerName = i_RequiredDataArray[5];
+            }
+            AirInflationToWheels(float.Parse(i_RequiredDataArray[6]));
         }
 
-        public override string[] ShowTheVehicleData()
-        {
-            if (m_CarMechanism is FuelMechanism)
-            {
-                m_RequiredDetailsForCreating[4] = $"gas type: Octan98 with {EnergyBalanceInPrecentage} of remaind energy.";
-            }
-            else
-            {
-                m_RequiredDetailsForCreating[4] = $"{EnergyBalanceInPrecentage} of remaind energy.";
-            }
-            m_RequiredDetailsForCreating[5] = $"wheels: manifuctur name: {m_WheelsArray[0].ManifucturName} and tire pressure is {m_WheelsArray[0].CurrentTirePressure} from {m_WheelsArray[0].MaxTirePressure}";
+        //public override string[] ShowTheVehicleData()
+        //{
+        //    if (m_CarMechanism is FuelMechanism)
+        //    {
+        //        m_RequiredDetailsForCreating[4] = $"gas type: Octan98 with {EnergyBalanceInPrecentage} of remaind energy.";
+        //    }
+        //    else
+        //    {
+        //        m_RequiredDetailsForCreating[4] = $"{EnergyBalanceInPrecentage} of remaind energy.";
+        //    }
+        //    m_RequiredDetailsForCreating[5] = $"wheels: manifuctur name: {m_WheelsArray[0].ManufacturerName} and tire pressure is {m_WheelsArray[0].CurrentTirePressure} from {m_WheelsArray[0].MaxTirePressure}";
 
-            return m_RequiredDetailsForCreating;
+        //    return m_RequiredDetailsForCreating;
+        //}
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.Append(base.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendLine($"License Type: {m_LicenceType.ToString()}");
+            stringBuilder.Append($"Engine Capacity: {m_EngineCapacity}");
+
+            return stringBuilder.ToString();
         }
 
     }
