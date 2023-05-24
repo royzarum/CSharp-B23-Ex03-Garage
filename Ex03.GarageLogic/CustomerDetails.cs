@@ -9,8 +9,8 @@ namespace Ex03.GarageLogic
 
     public enum eCurrentStateOfTheVehicle
     {
-        InRepair, 
-        Repaired, 
+        InRepair,
+        Repaired,
         Paid
     }
 
@@ -30,7 +30,7 @@ namespace Ex03.GarageLogic
                 return m_VehicleOwnerName;
             }
             set
-            { 
+            {
                 m_VehicleOwnerName = value;
             }
         }
@@ -41,8 +41,8 @@ namespace Ex03.GarageLogic
             {
                 return m_VehicleOwnerTelephone;
             }
-            set 
-            { 
+            set
+            {
                 m_VehicleOwnerTelephone = value;
             }
         }
@@ -70,5 +70,20 @@ namespace Ex03.GarageLogic
                 m_Vehicle = value;
             }
         }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine($"Owner: {VehicleOwnerName}");
+            stringBuilder.AppendLine($"Telephone: {VehicleOwnerTelephone}");
+            stringBuilder.AppendLine("---------");
+            stringBuilder.AppendLine(Vehicle.ToString());
+            stringBuilder.AppendLine("---------");
+            stringBuilder.Append($"Status: {CurrentStateOfTheVehicle.ToString()}");
+
+            return stringBuilder.ToString();
+        }
+
     }
 }

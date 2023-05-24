@@ -1,5 +1,6 @@
 ﻿using System;
 using Ex03.GarageLogic;
+using Ex02.ConsoleUtils;
 
 
 namespace Ex03.ConsoleUI
@@ -8,87 +9,112 @@ namespace Ex03.ConsoleUI
     {
         static GarageLogicManager m_GLM = new GarageLogicManager();
 
-        public const int FINISH = 0;
-        public const int ONE = 1;
-        public const int TWO = 2;
-        public const int THREE = 3;
-        public const int FOUR = 4;
-        public const int FIVE = 5;
-        public const int SIX = 6;
-        public const int SEVEN = 7;
+        public enum eMenuOptions
+        {
+            AddNewVehicle = 1,
+            PrintGarageLicenseNumbers,
+            ChangeVehicleStatus,
+            TiresAirInflateToMax,
+            Fueling,
+            Recharging,
+            PrintVehicle,
+            Exit,
+            Invalid
+        }
 
         public static void Main()
         {
 
             string getChoiceFromUser = null;
-            uint userChoice = 0;
+            eMenuOptions userChoice;
 
             do
             {
+                Screen.Clear();
                 PrintTheGarageServicesMenu();
                 getChoiceFromUser = Console.ReadLine();
-                userChoice = uint.Parse(getChoiceFromUser);   //validation
-                DoTheUserChoice(userChoice);
+                //userChoice = uint.Parse(getChoiceFromUser);   //validation
+                if (Enum.TryParse<eMenuOptions>(getChoiceFromUser, out userChoice))
+                {
+                    Screen.Clear();
+                    DoTheUserChoice(userChoice);
+                }
+                else
+                {
+                    Console.WriteLine(@"Invalid menu choice!
+Press any key to return to the menu");
+                    Console.ReadKey();
+                    userChoice = eMenuOptions.Invalid;
+                }
+
             }
             while (!IsUserChooseToFinish(userChoice));
 
         }
 
-        public static bool IsUserChooseToFinish(uint i_UserChoice)
+        public static bool IsUserChooseToFinish(eMenuOptions i_UserChoice)
         {
-            return i_UserChoice == FINISH;
+            return i_UserChoice == eMenuOptions.Exit;
         }
 
         public static void PrintTheGarageServicesMenu()
         {
-            Console.WriteLine(@"The following are the garage services:
-1. Bringing a new vehicle into the garage.
-2. Display the list of vehicle license numbers in the garage.
-3. Changing vehicle mode.
-4. Air inflation in the wheels to a maximum of.
-5. Refueling a fuel-powered vehicle.
-6. Charging an electric vehicle.
-7. View complete vehicle data.
-8. Exit.");
+            Console.WriteLine($@"The following are the garage services:
+{Convert.ToInt32(eMenuOptions.AddNewVehicle)}. Bringing a new vehicle into the garage.
+{Convert.ToInt32(eMenuOptions.PrintGarageLicenseNumbers)}. Display the list of vehicle license numbers in the garage.
+{Convert.ToInt32(eMenuOptions.ChangeVehicleStatus)}. Changing vehicle status in garage.
+{Convert.ToInt32(eMenuOptions.TiresAirInflateToMax)}. inflate a vehicle's wheels to maximum.
+{Convert.ToInt32(eMenuOptions.Fueling)}. Refueling a fuel-powered vehicle.
+{Convert.ToInt32(eMenuOptions.Recharging)}. Recharging an electric vehicle.
+{Convert.ToInt32(eMenuOptions.PrintVehicle)}. View complete vehicle data.
+{Convert.ToInt32(eMenuOptions.Exit)}. Exit.");
             Console.WriteLine("Please enter your choice (a number between 1 - 8)");
+
+
         }
 
-        public static void DoTheUserChoice(uint i_UserChoice)
+        public static void DoTheUserChoice(eMenuOptions i_UserChoice)
         {
             switch (i_UserChoice)
             {
-                case ONE:
-                    DoChoiceOne();
+                case eMenuOptions.AddNewVehicle:
+                    AddNewVehicleToGarage();
                     break;
-                case TWO:
-                    DoChoiceTwo();
+                case eMenuOptions.PrintGarageLicenseNumbers:
+                    PrintGarageLicenseNumbers();
                     break;
-                case THREE:
-                    DoChoiceThree();
+                case eMenuOptions.ChangeVehicleStatus:
+                    ChangeVehicleStatus();
                     break;
-                case FOUR:
-                    DoChoiceFour();
+                case eMenuOptions.TiresAirInflateToMax:
+                    AirInflateAllTireOfVehicleToMax();
                     break;
-                case FIVE:
-                    DoChoiceFive();
+                case eMenuOptions.Fueling:
+                    RefuelVehicle();
                     break;
-                case SIX:
-                    DoChoiceSix();
+                case eMenuOptions.Recharging:
+                    RechargeVehicle();
                     break;
-                case SEVEN:
-                    DoChoiceSeven();
+                case eMenuOptions.PrintVehicle:
+                    PrintVehicle();
+                    break;
+                case eMenuOptions.Exit:
                     break;
                 default:
+                    Console.WriteLine("Invalid menu choice!");
                     break;
             }
+
+            Console.WriteLine("Press any key to continue.");
+            Console.ReadKey();
         }
 
-        public static void DoChoiceOne()
+        public static void AddNewVehicleToGarage()
         {
             CustomerDetails customerDetails = null;
             string[] requiredDetailesFromUserArray = null;
             string licenseNumber = null;
-            string modelName = null;
+            string strVehicleTypeFromUser = null;
             string vehicleOwnerName = null;
             string vehicleOwnerTelephone = null;
 
@@ -107,19 +133,22 @@ namespace Ex03.ConsoleUI
                     {
                         Console.WriteLine("* {0}", value.ToString());
                     }
-                    modelName = Console.ReadLine();
-                    customerDetails = m_GLM.AddVehicleToTheGarage(licenseNumber, modelName);   //methode in GarageLogicManager.
-                    requiredDetailesFromUserArray = customerDetails.Vehicle.ShowTheRequiredDataFromTheUser(modelName);
-                    Console.WriteLine($"Enter the next required detailes:");
+
+                    strVehicleTypeFromUser = Console.ReadLine();
+                    customerDetails = m_GLM.AddVehicleToTheGarage(licenseNumber, strVehicleTypeFromUser);   //methode in GarageLogicManager.
+                    requiredDetailesFromUserArray = customerDetails.Vehicle.ShowTheRequiredDataFromTheUser();
+                    Console.WriteLine("Enter the next required detailes:");
                     PrintTheRequiredDataArray(requiredDetailesFromUserArray);
-                    ReadTheRequiredDataFromTheUserToTheArray(requiredDetailesFromUserArray, licenseNumber, modelName);
+                    ReadTheRequiredDataFromTheUserToTheArray(requiredDetailesFromUserArray, licenseNumber);
                     customerDetails.Vehicle.GetTheRequiredDataFromTheUser(requiredDetailesFromUserArray);
-                    Console.WriteLine("Enter owner name");
+                    Console.WriteLine("--------Customer Details--------");
+                    Console.WriteLine("Enter owner name:");
                     vehicleOwnerName = Console.ReadLine();
-                    Console.WriteLine("Enter telephone number");
+                    Console.WriteLine("Enter telephone number:");
                     vehicleOwnerTelephone = Console.ReadLine();
                     customerDetails.VehicleOwnerName = vehicleOwnerName;
                     customerDetails.VehicleOwnerTelephone = vehicleOwnerTelephone;
+                    Console.WriteLine("Your vehicle has been successfully received!");
                 }
             }
             catch (Exception ex)
@@ -135,7 +164,7 @@ namespace Ex03.ConsoleUI
 
             foreach (string item in i_RequiredDataArray)
             {
-                if(i == 0)
+                if (i == 0)
                 {
                     i++;
                     continue;
@@ -145,9 +174,9 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        public static void ReadTheRequiredDataFromTheUserToTheArray(string[] i_RequiredDataArray, string i_LicenseNumber, string i_ModelName)
+        public static void ReadTheRequiredDataFromTheUserToTheArray(string[] i_RequiredDataArray, string i_LicenseNumber)
         {
-           
+
             i_RequiredDataArray[0] = i_LicenseNumber;
 
             for (int i = 1; i < i_RequiredDataArray.Length; i++)
@@ -156,10 +185,10 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        public static void DoChoiceTwo()
+
+        public static void PrintGarageLicenseNumbers()
         {
             string getChoiceFromUser = null;
-            uint userChoice = 0;
 
             Console.WriteLine("Would you like to choose a specific state? (Y/N)");
             getChoiceFromUser = Console.ReadLine();
@@ -188,7 +217,7 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        public static void DoChoiceThree()
+        public static void ChangeVehicleStatus()
         {
             string licenseNumber = null;
             string newStateOfVehicle = null;
@@ -201,6 +230,10 @@ namespace Ex03.ConsoleUI
                     Console.WriteLine("Enter license number:");
                     licenseNumber = Console.ReadLine();
                     Console.WriteLine("Enter new state of the vehicle:");
+                    foreach (eCurrentStateOfTheVehicle value in Enum.GetValues(typeof(eCurrentStateOfTheVehicle)))
+                    {
+                        Console.WriteLine($"* {value.ToString()}");
+                    }
                     newStateOfVehicle = Console.ReadLine();
                     v_isInputValid = m_GLM.ChangeStateOfVehicleInTheGarage(licenseNumber, newStateOfVehicle);
                     if (!v_isInputValid)
@@ -216,7 +249,7 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        public static void DoChoiceFour()
+        public static void AirInflateAllTireOfVehicleToMax()
         {
             string licenseNumber = null;
             bool v_isInputValid = true;
@@ -234,7 +267,7 @@ namespace Ex03.ConsoleUI
             while (!v_isInputValid);
         }
 
-        public static void DoChoiceFive()
+        public static void RefuelVehicle()
         {
             string licenseNumber = null;
             string gasType = null;
@@ -272,7 +305,7 @@ The possible range is {valueOutOfRangeException.MinValue} - {valueOutOfRangeExce
             }
         }
 
-        public static void DoChoiceSix()
+        public static void RechargeVehicle()
         {
             string licenseNumber = null;
             string amountOfHoursToCharge = null;
@@ -300,24 +333,21 @@ The possible range is {valueOutOfRangeException.MinValue} - {valueOutOfRangeExce
                 Console.WriteLine($@"The amount of hours to charge is out of range!
 The possible range is {valueOutOfRangeException.MinValue} - {valueOutOfRangeException.MaxValue}.");
             }
-            catch(ArgumentException argumentException)
+            catch (ArgumentException argumentException)
             {
                 Console.WriteLine("The vehicle is not electric!");
             }
         }
 
-        public static void DoChoiceSeven()
+        public static void PrintVehicle()
         {
-            string licenseNumber = null;      
+            string licenseNumber = null;
             CustomerDetails customerDetails = null;
 
             Console.WriteLine("Enter license number:");
             licenseNumber = Console.ReadLine();
             customerDetails = m_GLM.GetObjectOfCustomerDetails(licenseNumber);
-            Console.WriteLine(customerDetails.VehicleOwnerName);
-            Console.WriteLine(customerDetails.VehicleOwnerTelephone);
-            PrintTheRequiredDataArray(customerDetails.Vehicle.ShowTheVehicleData());
-            Console.WriteLine((customerDetails.CurrentStateOfTheVehicle).ToString());           
+            Console.WriteLine(customerDetails.ToString());
         }
     }
 }

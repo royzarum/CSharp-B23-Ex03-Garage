@@ -1,5 +1,5 @@
 ﻿using System;
-using static Ex03.GarageLogic.FuelMechanism;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -19,8 +19,13 @@ namespace Ex03.GarageLogic
         {
             NumberOfDoors numberOfDoors = new NumberOfDoors();
             numberOfDoors.m_Value = (eNumberOfDoors)Enum.Parse(typeof(eNumberOfDoors), i_Str);
-            return numberOfDoors;
 
+            return numberOfDoors;
+        }
+
+        public override string ToString()
+        {
+            return m_Value.ToString();
         }
     }
 
@@ -29,11 +34,13 @@ namespace Ex03.GarageLogic
         private string m_Color = null;
         private NumberOfDoors m_NumberOfDoors;
 
-        public const uint k_NumberOfRequiresForCreating = 6;
+        public const uint k_NumberOfRequiresForCreating = 7;
         public const uint k_NumberOfWheels = 5;
         public const float k_MaxTirePressure = 33f;
+        //Fuel
         public const float k_MaxGasInTank = 46f;
         public const FuelMechanism.eGasType k_GasType = FuelMechanism.eGasType.Octan95;
+        //Electric
         public const float k_MaxElectricUnitInBattery = 5.2f;
 
         public Car(eMechanismType i_MechanismType = eMechanismType.Gas)
@@ -50,31 +57,8 @@ namespace Ex03.GarageLogic
             m_RequiredDetailsForCreating = new string[k_NumberOfRequiresForCreating];
         }
 
-        public string[] RequiredDetailsForCreating
-        {
-            get
-            {
-                m_RequiredDetailsForCreating[0] = "License Number";
-                m_RequiredDetailsForCreating[1] = "Model Name";
-                m_RequiredDetailsForCreating[2] = "Color";
-                m_RequiredDetailsForCreating[3] = "Number of doors";
-                m_RequiredDetailsForCreating[4] = "Current amount of energy units in the vehicle";
-                m_RequiredDetailsForCreating[5] = "Current amount of air in the wheels in the vehicle";
-                
 
-                return m_RequiredDetailsForCreating;
-            }
-            set
-            {
-                m_ModelName = value[0];
-                m_LicenseNumber = value[1];
-                m_Color = value[2];
-                m_NumberOfDoors = NumberOfDoors.Parse(value[3]);
-                m_CarMechanism.CurrentAmountOfEnergyUnits = float.Parse(value[4]);
-                AirInflationToWheels(float.Parse(value[5]));
-            }
-        }
-        public override string[] ShowTheRequiredDataFromTheUser(string i_ModelName)
+        public override string[] ShowTheRequiredDataFromTheUser()
         {
 
             m_RequiredDetailsForCreating[0] = "License Number";
@@ -82,36 +66,55 @@ namespace Ex03.GarageLogic
             m_RequiredDetailsForCreating[2] = "Color";
             m_RequiredDetailsForCreating[3] = "Number of doors";
             m_RequiredDetailsForCreating[4] = "Current amount of energy units in the vehicle";
-            m_RequiredDetailsForCreating[5] = "Current amount of air in the wheels in the vehicle";
+            m_RequiredDetailsForCreating[5] = "Wheels manufacturer name";
+            m_RequiredDetailsForCreating[6] = "Current amount of air in the wheels in the vehicle";
 
             return m_RequiredDetailsForCreating;
         }
 
         public override void GetTheRequiredDataFromTheUser(string[] i_RequiredDataArray)
         {
-            
+
             m_LicenseNumber = i_RequiredDataArray[0];
             m_ModelName = i_RequiredDataArray[1];
             m_Color = i_RequiredDataArray[2];
             m_NumberOfDoors = NumberOfDoors.Parse(i_RequiredDataArray[3]);
             m_CarMechanism.CurrentAmountOfEnergyUnits = float.Parse(i_RequiredDataArray[4]);
-            AirInflationToWheels(float.Parse(i_RequiredDataArray[5]));
+            foreach (Wheel wheel in m_WheelsArray)
+            {
+                wheel.ManufacturerName = i_RequiredDataArray[5];
+            }
+            AirInflationToWheels(float.Parse(i_RequiredDataArray[6]));
         }
 
-        public override string[] ShowTheVehicleData()
+        public override string ToString()
         {
-            if (m_CarMechanism is FuelMechanism)
-            {
-                m_RequiredDetailsForCreating[4] = $"gas type: {k_GasType} with {EnergyBalanceInPrecentage} of remaind energy.";
-            }
-            else
-            {
-                m_RequiredDetailsForCreating[4] = $"{EnergyBalanceInPrecentage} of remaind energy.";
-            }
-            m_RequiredDetailsForCreating[5] = $"Wheels manifuctur name: {m_WheelsArray[0].ManifucturName} and tire pressure is {m_WheelsArray[0].CurrentTirePressure} from {m_WheelsArray[0].MaxTirePressure}";
+            StringBuilder stringBuilder = new StringBuilder();
 
-            return m_RequiredDetailsForCreating;
+            stringBuilder.Append(base.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendLine($"Color: {m_Color}");
+            stringBuilder.Append($"Number of doors: {m_NumberOfDoors.ToString()} doors");
+
+            return stringBuilder.ToString();
         }
+
+
+
+        //public override string[] ShowTheVehicleData()
+        //{
+        //    if (m_CarMechanism is FuelMechanism)
+        //    {
+        //        m_RequiredDetailsForCreating[4] = $"gas type: {k_GasType} with {EnergyBalanceInPrecentage} of remaind energy.";
+        //    }
+        //    else
+        //    {
+        //        m_RequiredDetailsForCreating[4] = $"{EnergyBalanceInPrecentage} of remaind energy.";
+        //    }
+        //    m_RequiredDetailsForCreating[5] = $"Wheels manifuctur name: {m_WheelsArray[0].ManufacturerName} and tire pressure is {m_WheelsArray[0].CurrentTirePressure} from {m_WheelsArray[0].MaxTirePressure}";
+
+        //    return m_RequiredDetailsForCreating;
+        //}
 
 
 

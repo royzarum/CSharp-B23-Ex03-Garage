@@ -1,6 +1,5 @@
-﻿
-using System;
-using static Ex03.GarageLogic.FuelMechanism;
+﻿using System;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -9,12 +8,12 @@ namespace Ex03.GarageLogic
         private float m_CargoCapacity = 0f;
         private bool v_IsCarringHazaradousMatirials = false;
 
-        public const uint k_NumberOfRequiresForCreating = 6;
+        public const uint k_NumberOfRequiresForCreating = 7;
         public const uint k_NumberOfWheels = 14;
         public const float k_MaxTirePressure = 26f;
+        //Fuel
         public const float k_MaxAmountOfGas = 135f;
         public const FuelMechanism.eGasType k_GasType = FuelMechanism.eGasType.Soler;
-
 
 
         public Truck(eMechanismType i_MechanismType = eMechanismType.Gas)
@@ -24,14 +23,36 @@ namespace Ex03.GarageLogic
             m_RequiredDetailsForCreating = new string[k_NumberOfRequiresForCreating];
         }
 
-        public override string[] ShowTheRequiredDataFromTheUser(string i_ModelName)
+
+
+        /////////////////Properties///////////////////
+
+        public float CargoCapacity
+        {
+            get
+            {
+                return m_CargoCapacity;
+            }
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("Truck cargo must be possitive number.");
+                }
+                m_CargoCapacity = value;
+            }
+        }
+
+
+        public override string[] ShowTheRequiredDataFromTheUser()
         {
             m_RequiredDetailsForCreating[0] = "License Number";
             m_RequiredDetailsForCreating[1] = "Model Name";
             m_RequiredDetailsForCreating[2] = "cargo capacity";
             m_RequiredDetailsForCreating[3] = "is carring hazaradous matirials?";
             m_RequiredDetailsForCreating[4] = "current amount of fuel in the vehicle";
-            m_RequiredDetailsForCreating[5] = "current amount of air in the wheels in the vehicle";
+            m_RequiredDetailsForCreating[5] = "Wheels manufacturer name";
+            m_RequiredDetailsForCreating[6] = "Current amount of air in the wheels in the vehicle";
 
             return m_RequiredDetailsForCreating;
         }
@@ -43,15 +64,35 @@ namespace Ex03.GarageLogic
             m_CargoCapacity = float.Parse(i_RequiredDataArray[2]);
             v_IsCarringHazaradousMatirials = bool.Parse(i_RequiredDataArray[3]);
             m_CarMechanism.CurrentAmountOfEnergyUnits = float.Parse(i_RequiredDataArray[4]);
-            AirInflationToWheels(float.Parse(i_RequiredDataArray[5]));
+            foreach (Wheel wheel in m_WheelsArray)
+            {
+                wheel.ManufacturerName = i_RequiredDataArray[5];
+            }
+            AirInflationToWheels(float.Parse(i_RequiredDataArray[6]));
         }
 
-        public override string[] ShowTheVehicleData()
+
+        public override string ToString()
         {
-            m_RequiredDetailsForCreating[4] = $"gas type: Soler with {EnergyBalanceInPrecentage} of remaind energy.";
-            m_RequiredDetailsForCreating[5] = $"wheels manifuctur name: {m_WheelsArray[0].ManifucturName} and tire pressure is {m_WheelsArray[0].CurrentTirePressure} from {m_WheelsArray[0].MaxTirePressure}";
+            StringBuilder stringBuilder = new StringBuilder();
 
-            return m_RequiredDetailsForCreating;
+            stringBuilder.Append(base.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendLine($"Cargo Capacity: {CargoCapacity}");
+            stringBuilder.Append($"Is carring hazaradous matirials: {(v_IsCarringHazaradousMatirials ? "Yes" : "No")}");
+
+            return stringBuilder.ToString();
         }
+
+
+        //public override string[] ShowTheVehicleData()
+        //{
+        //    m_RequiredDetailsForCreating[4] = $"gas type: Soler with {EnergyBalanceInPrecentage} of remaind energy.";
+        //    m_RequiredDetailsForCreating[5] = $"wheels manifuctur name: {m_WheelsArray[0].ManufacturerName} and tire pressure is {m_WheelsArray[0].CurrentTirePressure} from {m_WheelsArray[0].MaxTirePressure}";
+        //
+        //    return m_RequiredDetailsForCreating;
+        //}
+
+
     }
 }

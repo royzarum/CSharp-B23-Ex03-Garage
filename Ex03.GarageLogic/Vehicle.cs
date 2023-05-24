@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -18,21 +19,31 @@ namespace Ex03.GarageLogic
         protected string[] m_RequiredDetailsForCreating = null;
 
 
-        public abstract string[] ShowTheRequiredDataFromTheUser(string i_ModelName);
+        public abstract string[] ShowTheRequiredDataFromTheUser();
         public abstract void GetTheRequiredDataFromTheUser(string[] i_RequiredDataArray);
-        public abstract string[] ShowTheVehicleData();
 
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
 
-        //public Vehicle(string i_ModelName, string i_LicenseNumber, uint i_NumberOfWheels, float i_MaxTirePressure, string i_CurrentTirePressure)
-        //{
-        //    m_ModelName = i_ModelName;
-        //    checkLicenseNumberValidation(i_LicenseNumber);
-        //    m_LicenseNumber = i_LicenseNumber;
-        //    m_WheelsArray = createWheelsArray(i_NumberOfWheels, i_MaxTirePressure, i_CurrentTirePressure);
-        //}
+            stringBuilder.AppendLine($"License Number: {m_LicenseNumber}");
+            stringBuilder.AppendLine($"Model Name: {m_ModelName}");
+            stringBuilder.AppendLine();
+            stringBuilder.AppendLine("Mechanism:");
+            stringBuilder.Append(m_CarMechanism.ToString());
+            stringBuilder.AppendLine();
+            stringBuilder.AppendLine();
+            int i = 1;
+            foreach (Wheel wheel in m_WheelsArray)
+            {
+                stringBuilder.AppendLine($"Wheel No.{i}:");
+                stringBuilder.Append(wheel.ToString());
+                stringBuilder.AppendLine();
+                ++i;
+            }
 
-
-
+            return stringBuilder.ToString();
+        }
 
         /////////////////Gets And Sets/////////////////
         public string ModelName
@@ -79,7 +90,7 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                m_EnergyBalanceInPrecentage =  (m_CarMechanism.CurrentAmountOfEnergyUnits / m_CarMechanism.MaxAmountOfEnergyUnits);
+                m_EnergyBalanceInPrecentage = (m_CarMechanism.CurrentAmountOfEnergyUnits / m_CarMechanism.MaxAmountOfEnergyUnits);
                 return m_EnergyBalanceInPrecentage;
             }
             protected set
@@ -109,11 +120,11 @@ namespace Ex03.GarageLogic
 
         protected Wheel[] createWheelsArray(uint i_NumberOfWheels, float i_MaxTirePressure)
         {
-           
+
             Wheel[] wheelsArray = new Wheel[i_NumberOfWheels];
             for (int i = 0; i < i_NumberOfWheels; i++)
             {
-                wheelsArray[i] = new Wheel();            
+                wheelsArray[i] = new Wheel();
                 wheelsArray[i].MaxTirePressure = i_MaxTirePressure;
             }
 
@@ -166,7 +177,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-    
+
 
     }
 }

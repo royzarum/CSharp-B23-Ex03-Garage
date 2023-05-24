@@ -1,23 +1,28 @@
-﻿
+﻿using System.Text;
+
 namespace Ex03.GarageLogic
 {
     public class Wheel
     {
-        private readonly string m_ManifucturName = null;
+        private string m_ManufacturerName = null;
         private float m_CurrentTirePressure = 0;
         private float m_MaxTirePressure = 0;
 
         //public Wheel(float i_MaxTirePressire)
         //{
-        //    m_ManifucturName = i_ManifucturName;
+        //    m_ManufacturerName = i_ManufacturerName;
         //    m_MaxTirePressure = i_MaxTirePressire;
         //}
 
-        public string ManifucturName
+        public string ManufacturerName
         {
             get
             {
-                return m_ManifucturName;
+                return m_ManufacturerName;
+            }
+            set
+            {
+                m_ManufacturerName = value;
             }
         }
 
@@ -55,10 +60,21 @@ namespace Ex03.GarageLogic
 
         private void checkValidationOfAmountOfAirPressireUnitsToAdd(float i_AirPressireToAdd)
         {
-            if (m_CurrentTirePressure + i_AirPressireToAdd > m_MaxTirePressure)
+            if (i_AirPressireToAdd < 0 || m_CurrentTirePressure + i_AirPressireToAdd > m_MaxTirePressure)
             {
-                //Throw Exception
+                throw new ValueOutOfRangeException(MaxTirePressure - CurrentTirePressure, 0);
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine($"Manufacturer: {m_ManufacturerName}");
+            stringBuilder.Append($"Tire Pressure: {CurrentTirePressure} out of {MaxTirePressure}");
+
+            return stringBuilder.ToString();
+
         }
     }
 

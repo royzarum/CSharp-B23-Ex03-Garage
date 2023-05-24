@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -9,13 +10,13 @@ namespace Ex03.GarageLogic
         public enum eGasType
         {
             Soler,
-            Octan95,
-            Octan96,
-            Octan98
+            Octan95 = 95,
+            Octan96 = 96,
+            Octan98 = 98
         }
 
         private eGasType m_GasType;
-
+        public const string k_GasUnit = "Liter";
 
         //gets & sets
         public eGasType GasType
@@ -26,7 +27,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public FuelMechanism(eGasType i_GasType, float i_MaxGasCapacity) : base(i_MaxGasCapacity)
+        public FuelMechanism(eGasType i_GasType, float i_MaxGasCapacity) : base(i_MaxGasCapacity, k_GasUnit)
         {
             m_GasType = i_GasType;
         }
@@ -45,7 +46,18 @@ namespace Ex03.GarageLogic
             else
             {
                 throw new ArgumentException("the gas type is different from the vehicle gas type.");
-            }           
+            }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.AppendLine("Mechanism Type: Fuel");
+            stringBuilder.Append($"Gas Type: {GasType}, ");
+            stringBuilder.Append(base.ToString());
+
+            return stringBuilder.ToString();
         }
     }
 }
