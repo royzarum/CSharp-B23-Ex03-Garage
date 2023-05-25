@@ -18,6 +18,25 @@ namespace Ex03.GarageLogic
     {
         private Dictionary<string, CustomerDetails> m_DictionaryOfVehiclesInGarage = new Dictionary<string, CustomerDetails>();
 
+        public Dictionary<string, CustomerDetails> DictionaryOfVehiclesInGarage
+        {
+            get
+            {
+                return m_DictionaryOfVehiclesInGarage;
+            }
+        }
+
+
+        public CustomerDetails AddVehicleToTheGarage(string i_LicenseNumber, string i_VehicleType)
+        {
+            CustomerDetails newVehicleToAddToTheGarage = new CustomerDetails();
+            eVehicleType vehicleType = (eVehicleType)Enum.Parse(typeof(eVehicleType), i_VehicleType);
+
+            newVehicleToAddToTheGarage = CreateNewVehicleClasses.CreateAndAddVehicleToTheGarage(i_LicenseNumber, i_VehicleType, DictionaryOfVehiclesInGarage);
+
+            return newVehicleToAddToTheGarage;
+        }
+
         public void RemoveCustomerDetailsFromMap(string i_LicenseNumber)
         {
             m_DictionaryOfVehiclesInGarage.Remove(i_LicenseNumber);
@@ -35,36 +54,6 @@ namespace Ex03.GarageLogic
             return v_IsLicenseNumberAlreadyInTheGarage;
         }
 
-        public CustomerDetails AddVehicleToTheGarage(string i_LicenseNumber, string i_VehicleType)
-        {
-            CustomerDetails newVehicleToAddToTheGarage = new CustomerDetails();
-            eVehicleType vehicleType = (eVehicleType)Enum.Parse(typeof(eVehicleType), i_VehicleType);
-
-            switch (vehicleType)
-            {
-                case eVehicleType.RegularCar:
-                    newVehicleToAddToTheGarage.Vehicle = new Car();
-                    break;
-                case eVehicleType.ElectricCar:
-                    newVehicleToAddToTheGarage.Vehicle = new Car(eMechanismType.Electric);
-                    break;
-                case eVehicleType.RegularMotorcycle:
-                    newVehicleToAddToTheGarage.Vehicle = new Motorcycle();
-                    break;
-                case eVehicleType.ElectricMotorcycle:
-                    newVehicleToAddToTheGarage.Vehicle = new Motorcycle(eMechanismType.Electric);
-                    break;
-                case eVehicleType.Truck:
-                    newVehicleToAddToTheGarage.Vehicle = new Truck();
-                    break;
-                default:
-                    break;
-            }
-
-            m_DictionaryOfVehiclesInGarage.Add(i_LicenseNumber, newVehicleToAddToTheGarage);
-
-            return newVehicleToAddToTheGarage;
-        }
 
         public void PrintAllLicenseNumbersOfVehiclesInTheGarage()
         {

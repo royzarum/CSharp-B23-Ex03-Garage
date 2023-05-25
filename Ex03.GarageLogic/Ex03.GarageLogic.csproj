@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Car.cs" />
     <Compile Include="CarMechanism.cs" />
+    <Compile Include="CreateNewVehicleClasses.cs" />
     <Compile Include="CustomerDetails.cs" />
     <Compile Include="ElectricMechanism.cs" />
     <Compile Include="FuelMechanism.cs" />
